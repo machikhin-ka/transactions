@@ -22,7 +22,7 @@ public class AppSynchronizedAccountsTest {
     private final AccountRepository repository = new InMemoryAccountRepository(List.of(firstAccount, secondAccount));
     private final Accounts accounts = new AppSynchronizedAccounts(repository);
 
-    private record Transfer(long from, long to, long value) {
+    private record Transfer(long from, long to, long amount) {
     }
 
     @Test
@@ -40,7 +40,7 @@ public class AppSynchronizedAccountsTest {
 
     private List<Transfer> createTransfers() {
         List<Transfer> transfers = new ArrayList<>();
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < 1_000_000; i++) {
             transfers.add(new Transfer(1L, 2L, 1));
             transfers.add(new Transfer(2L, 1L, 1));
         }
@@ -62,7 +62,7 @@ public class AppSynchronizedAccountsTest {
     private List<CompletableFuture<Void>> createTransferFutures(List<Transfer> transfers, ExecutorService executorService) {
         return transfers.stream()
                 .map(transfer -> runAsync(() ->
-                        accounts.transfer(transfer.from(), transfer.to(), transfer.value()), executorService))
+                        accounts.transfer(transfer.from(), transfer.to(), transfer.amount()), executorService))
                 .toList();
     }
 }
