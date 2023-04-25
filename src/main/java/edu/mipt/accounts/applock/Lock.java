@@ -4,15 +4,15 @@ public class Lock {
     private static final Object tieLock = new Object();
 
     public void execute(Object first, Object second, Command command) {
-        int firstHash = first.hashCode();
-        int secondHash = second.hashCode();
+        int firstId = System.identityHashCode(first);
+        int secondId = System.identityHashCode(second);
 
-        if (firstHash < secondHash) {
+        if (firstId < secondId) {
             lock(first, second, command);
             return;
         }
 
-        if (secondHash < firstHash) {
+        if (secondId < firstId) {
             lock(second, first, command);
             return;
         }
