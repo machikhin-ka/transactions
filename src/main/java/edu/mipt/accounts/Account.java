@@ -1,9 +1,11 @@
 package edu.mipt.accounts;
 
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
 public class Account {
+    @Id
     private long id;
     private long balance;
 

@@ -1,11 +1,13 @@
 package edu.mipt.accounts.applock;
 
+import edu.mipt.accounts.Account;
+
 public class Lock {
     private static final Object tieLock = new Object();
 
-    public void execute(Object first, Object second, Command command) {
-        int firstId = System.identityHashCode(first);
-        int secondId = System.identityHashCode(second);
+    public void execute(Account first, Account second, Command command) {
+        long firstId = first.getId();
+        long secondId = second.getId();
 
         if (firstId < secondId) {
             lock(first, second, command);
